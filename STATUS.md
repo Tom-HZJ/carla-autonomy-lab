@@ -61,7 +61,7 @@ M0 – M5 已完成并且稳定。M6（MPC）已实现，直线和小曲率段�
 | M4 | RViz2 可视化 | 完成 | rviz2 OpenGL 4.6 起来，点云/相机/里程计/路径/TF 全在 config/ego.rviz |
 | M5 | Pure Pursuit + PID | 完成 | 90s 跑 685 m（2.5 圈），横向误差均值 0.291 m / 95% 0.495 m / 最大 0.929 m |
 | M6 | MPC (CasADi) | 部分完成 | 能跑，直线段 XTE 0.1–0.4 m；偶发一次跑丢（约 634 m 后），未根因定位 |
-| M7 | LiDAR 动态避障 | 待办 | |
+| M7 | 感知 + 避障 | 基本完成 | 两条腿：①自研 LiDAR 体素+并查集聚类检测（1–2ms，出包围盒）；②复用 CARLA 官方 agents 驾驶，409 m 自主到终点、0 次急停 |
 | M8 | ST-Graph + MPC | 待办 | |
 
 M3 实测数据：
@@ -165,3 +165,37 @@ ros2 run carla_autonomy make_route --ros-args -p spawn_index:=0
    下一步打算把 a_lat_hard 再放宽、并把 horizon 拉长到 2.5s 试。
 3. **M8**：ST-Graph 时空联合规划。
 4. 录像：把相机帧序列拼成 mp4，出片用。
+
+## M7 阶段小结（2026-09-30 下午）
+
+### 做成了什么
+
+- **自研 LiDAR 障碍物检测**（`obstacle_detector.py`）：体素 + 并查集聚类，
+  1–2 ms，出包围盒 / 最近距离，RViz 可看，话题 `/carla/ego/obstacles`。
+- **复用 CARLA 官方 agents 包**（`behavior_driver.py`）：
+  `BehaviorAgent` + `GlobalRoutePlanner` + `LocalPlanner`，
+  实测 **409 m 自主行驶到指定终点，全程 7.5 m/s，0 次急停**，
+  路上散布 14 个路障也没撞。
+- 桥新增两个健壮性：控制指令超时 0.5 s 就放手（让官方 agent 接管，
+  两边不打架）；spawn 点被占自动换一个。
+
+### 为什么改成"复用官方 agents"
+
+自己手写的绕行避障过不去正中央的路障：绕行偏移加在"前瞻点"上，
+障碍物进到 3–4 m 才反应得过来，横向来不及挪。
+CARLA 官方 `BasicAgent` 的避障用的是**仿真真值 actor 列表 + 路线多边形**，
+比用 LiDAR 去猜稳得多，而且自带红绿灯和路口让行。
+
+所以 M7 改成两条腿：官方 agent 负责"开得好"，
+自研 LiDAR 聚类负责"感知演示 / 学习对照"。两者都保留。
+
+### 这一阶段新踩的坑
+
+- **LiDAR 会打到自己的引擎盖**：车顶 2.5 m 的 LiDAR 斜向下能看到自己车头，
+  稳定报"前方 2.4 m 有障碍"，车就一直对着自己刹车。`roi_x_min` 要 ≥ 3 m。
+- **`.gitignore` 行尾不能写注释**：`envs/   # 环境` 会被当成完整模式，
+  结果大目录没被忽略，`git add` 卡死还往 `.git` 塞了 6 GB 垃圾。
+- **新连上来的 CARLA 客户端第一次 `get_actors()` 常常返回空**，
+  所有"第二客户端"查询都要带重试。
+- **同步模式下第二个客户端做 spawn/查询容易超时**，
+  所以摆障碍物要在起桥之前做。

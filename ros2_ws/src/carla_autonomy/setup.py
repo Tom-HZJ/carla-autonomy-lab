@@ -27,6 +27,7 @@ setup(
             "pure_pursuit = carla_autonomy.pure_pursuit_node:main",
             "mpc_controller = carla_autonomy.mpc_controller:main",
             "obstacle_detector = carla_autonomy.obstacle_detector:main",
+            "behavior_driver = carla_autonomy.behavior_driver:main",
             "make_route = carla_autonomy.make_route:main",
         ],
     },

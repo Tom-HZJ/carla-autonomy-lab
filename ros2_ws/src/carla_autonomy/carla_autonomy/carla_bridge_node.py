@@ -123,6 +123,7 @@ class CarlaBridge(Node):
         # 结果就是 MPC 的模型和真车对不上，弯里慢慢发散最后跑丢。
         self.declare_parameter("max_steer_rad", 1.0)
         self.declare_parameter("namespace", "/carla/ego")
+        self.declare_parameter("spawn_index", 0)
         # 纵向速度 PID（执行器层）
         self.declare_parameter("speed_kp", 0.35)
         self.declare_parameter("speed_ki", 0.15)
@@ -155,6 +156,7 @@ class CarlaBridge(Node):
         self._autopilot = bool(self.get_parameter("autopilot").value)
         self._target_speed = 0.0
         self._steer = 0.0
+        self._last_cmd_time = 0.0
         self._speed_err_sum = 0.0
         self._speed_err_prev = 0.0
         # 订阅者探测（每秒刷一次，避免在 CARLA 回调里频繁问 DDS）
@@ -224,7 +226,22 @@ class CarlaBridge(Node):
             if bp.has_attribute("role_name"):
                 bp.set_attribute("role_name", "ego_vehicle")
             spawn_points = self.world.get_map().get_spawn_points()
-            self.ego = self.world.spawn_actor(bp, spawn_points[0])
+            # 首选 spawn_index 指定的点，但那儿可能被别的东西占了
+            # （比如测试时摆的路障），那就顺着往后找第一个空的。
+            # 没这个兜底的话，一次 "collision at spawn position"
+            # 整个桥就直接起不来了。
+            start = int(self.get_parameter("spawn_index").value) % len(spawn_points)
+            order = [spawn_points[(start + k) % len(spawn_points)]
+                     for k in range(len(spawn_points))]
+            self.ego = None
+            for sp in order:
+                try:
+                    self.ego = self.world.spawn_actor(bp, sp)
+                    break
+                except RuntimeError:
+                    continue
+            if self.ego is None:
+                raise RuntimeError("所有 spawn 点都被占了，生成不了自车")
             self.actors.append(self.ego)
             self.get_logger().info(f"生成自车 {bp.id} id={self.ego.id}")
 
@@ -319,6 +336,7 @@ class CarlaBridge(Node):
         with self._lock:
             self._target_speed = float(msg.linear.x)
             self._steer = -ros_steer
+            self._last_cmd_time = time.time()
             if self._autopilot:
                 self._autopilot = False
                 if self.ego is not None and self.ego.is_alive:
@@ -511,7 +529,9 @@ class CarlaBridge(Node):
             return
 
         # 执行器层：自己跑速度 PID，再 apply_control
-        if not self._autopilot:
+        # 但如果最近没人发控制指令（比如换成 CARLA 官方 BehaviorAgent 在开），
+        # 就放手别管，否则两边会互相打架。
+        if (not self._autopilot) and (time.time() - self._last_cmd_time) < 0.5:
             self.ego.apply_control(self._speed_control(1.0 / self.rate_hz))
 
         tf = self.ego.get_transform()
