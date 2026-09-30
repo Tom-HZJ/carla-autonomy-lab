@@ -1,0 +1,9 @@
+# 装 YOLO/ultralytics 时用的版本约束。
+#
+# 背景：这个环境是 RoboStack 的 ROS 2 环境，里面一堆包是 conda 编译好的，
+# 依赖 numpy 1.x 的 ABI。pip 直接装 ultralytics 会把 numpy 顶到 2.x，
+# 结果 cv2 等一连串包全部 import 失败（_ARRAY_API not found）。
+# 所以用 -c 把 numpy 和 opencv 钉死，让 pip 别动它们。
+numpy==1.26.4
+opencv-python==4.6.0
+

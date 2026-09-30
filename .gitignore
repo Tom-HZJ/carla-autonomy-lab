@@ -8,6 +8,8 @@ datasets/
 logs/
 models/
 cyclonedds.log
+# 权重文件不入库，但把说明留下
+!models/README.md
 
 # ---- colcon 产物 ----
 ros2_ws/build/

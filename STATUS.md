@@ -168,6 +168,41 @@ ros2 run carla_autonomy make_route --ros-args -p spawn_index:=0
 
 ## M7 阶段小结（2026-09-30 下午）
 
+### M7c YOLO 目标检测（2026-09-30 傍晚）
+
+- **换用官方通用权重**：`models/yolov8n.pt`（6.5 MB）/ `yolov8s.pt`（22.6 MB），
+  80 类 COCO。用户本地那份 `ultralytics-8.3.208/data/yolov8m.pt` 是微调过的，
+  只认很少几类（`CLASS_MAP` 里只有 person），所以不用它。
+- **检测节点** `yolo_detector_node.py`：
+  `/carla/ego/camera/image_raw` → YOLO → `/carla/ego/detections`（JSON）
+  + `/carla/ego/detections_image`（画框图）+ `/carla/ego/detection_count`。
+  实测 GPU 推理 **6–10 ms/帧**，雨夜场景能认出红绿灯和行人。
+- 默认 `conf=0.35`；夜里小目标要靠 `-p conf:=0.15` 才出得来。
+
+### 环境合并（这一步踩的坑最多）
+
+`yolo` 环境是 Python 3.10 + torch 2.8.0+cu128 + ultralytics 8.3.213，CUDA 可用；
+我们的 ROS 环境也是 Python 3.10，所以直接把 GPU 依赖装进 `envs/ros2`，
+一个进程里既有 rclpy 又有 YOLO，省掉跨进程通信。
+
+但 pip 装 ultralytics 会顺手把 **numpy 顶到 2.x**，而 RoboStack 里一堆包是按
+numpy 1.x 的 ABI 编的，结果 `cv2` 直接 import 失败（`_ARRAY_API not found`）。
+解决办法是 `setup/pip-constraints.txt` 把 `numpy==1.26.4` 和 `opencv-python==4.6.0`
+钉死，之后所有 pip 安装都带 `-c`。
+
+另外两个坑：
+- torch 从 PyPI 默认装到 **2.14+cu130**，cuDNN 加载失败
+  （`CUDNN_STATUS_SUBLIBRARY_LOADING_FAILED`）。降到 **2.8.0+cu128** 正常。
+- pip 把 **setuptools 升到 84**，`setup.py develop --uninstall` 被移除，
+  colcon 直接构建失败。降到 `setuptools<70` 恢复。
+
+### 常用命令补充
+
+```bash
+bash setup/lab.sh start yolo              # 起 YOLO 检测（默认 conf 0.35）
+bash setup/lab.sh start yolo -p conf:=0.15 -p every_n:=3   # 夜里小目标
+```
+
 ### 做成了什么
 
 - **自研 LiDAR 障碍物检测**（`obstacle_detector.py`）：体素 + 并查集聚类，

@@ -28,6 +28,7 @@ setup(
             "mpc_controller = carla_autonomy.mpc_controller:main",
             "obstacle_detector = carla_autonomy.obstacle_detector:main",
             "behavior_driver = carla_autonomy.behavior_driver:main",
+            "yolo_detector = carla_autonomy.yolo_detector_node:main",
             "make_route = carla_autonomy.make_route:main",
         ],
     },
