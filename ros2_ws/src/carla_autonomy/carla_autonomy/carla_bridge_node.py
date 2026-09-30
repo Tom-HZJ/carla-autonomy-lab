@@ -81,14 +81,80 @@ def rain_night() -> carla.WeatherParameters:
 
 
 def clear_noon() -> carla.WeatherParameters:
+    """白天晴天：太阳高、无云无雨、路面干燥。"""
     w = carla.WeatherParameters()
+    w.cloudiness = 10.0
+    w.precipitation = 0.0
+    w.precipitation_deposits = 0.0
+    w.wind_intensity = 5.0
+    w.fog_density = 2.0
+    w.fog_distance = 200.0
+    w.wetness = 0.0
     w.sun_altitude_angle = 60.0
+    w.sun_azimuth_angle = 180.0
     return w
 
 
+def cloudy_day() -> carla.WeatherParameters:
+    w = carla.WeatherParameters()
+    w.cloudiness = 80.0
+    w.precipitation = 0.0
+    w.wind_intensity = 20.0
+    w.fog_density = 10.0
+    w.wetness = 0.0
+    w.sun_altitude_angle = 45.0
+    return w
+
+
+def rain_day() -> carla.WeatherParameters:
+    """白天中雨：亮但湿滑，适合验证"雨不一定在夜里"。"""
+    w = carla.WeatherParameters()
+    w.cloudiness = 90.0
+    w.precipitation = 70.0
+    w.precipitation_deposits = 70.0
+    w.wind_intensity = 30.0
+    w.fog_density = 15.0
+    w.fog_distance = 120.0
+    w.wetness = 80.0
+    w.sun_altitude_angle = 35.0
+    return w
+
+
+def dusk() -> carla.WeatherParameters:
+    """黄昏：太阳压到地平线附近，长阴影 + 逆光，对视觉是最难的一档。"""
+    w = carla.WeatherParameters()
+    w.cloudiness = 40.0
+    w.precipitation = 0.0
+    w.wind_intensity = 10.0
+    w.fog_density = 8.0
+    w.wetness = 0.0
+    w.sun_altitude_angle = 3.0
+    w.sun_azimuth_angle = 90.0
+    return w
+
+
+def foggy() -> carla.WeatherParameters:
+    w = carla.WeatherParameters()
+    w.cloudiness = 70.0
+    w.precipitation = 20.0
+    w.precipitation_deposits = 30.0
+    w.fog_density = 70.0
+    w.fog_distance = 35.0
+    w.wetness = 60.0
+    w.sun_altitude_angle = 25.0
+    return w
+
+
+# 天气预设表。名字可以用 -p weather:=xxx 指定，
+# 也可以用 scripts/set_weather.py 在仿真跑着的时候热切换。
 WEATHERS = {
-    "rain_night": rain_night,
-    "clear": clear_noon,
+    "clear": clear_noon,      # 白天晴天（常规环境）
+    "noon": clear_noon,
+    "cloudy": cloudy_day,     # 白天多云
+    "rain_day": rain_day,     # 白天雨
+    "dusk": dusk,             # 黄昏
+    "fog": foggy,             # 雾
+    "rain_night": rain_night, # 雨夜（复刻参考图）
 }
 
 
