@@ -50,7 +50,8 @@ class Replanner(Node):
         self.declare_parameter("trigger_dist", 28.0)    # 多远开始考虑重规划
         self.declare_parameter("lane_width", 3.5)       # 借道的横向距离
         self.declare_parameter("shift_len", 26.0)       # 鼓包的总长度（米）
-        self.declare_parameter("min_clear", 1.6)        # 障碍物离车道中心多近才算堵路
+        # 和 obstacle_detector / st_planner 用同一个门限（自车半宽 + 余量）
+        self.declare_parameter("min_clear", 1.45)
         self.declare_parameter("retry_cooldown_s", 12.0)  # 同一边多久内不重试
         self.declare_parameter("forward_points", 140)   # 新路径往前取多少个点
 

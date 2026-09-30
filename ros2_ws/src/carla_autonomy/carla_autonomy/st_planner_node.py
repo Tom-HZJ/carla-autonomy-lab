@@ -52,6 +52,9 @@ class StGraphPlanner(Node):
         self.declare_parameter("obs_length", 4.5)   # 障碍物纵向长度估计
         self.declare_parameter("ego_length", 4.7)
         self.declare_parameter("margin", 3.0)       # 额外安全余量
+        # 和 obstacle_detector / replanner 保持一致：只把真的压在本车道上的
+        # 障碍物当"挡路"。见 obstacle_detector 里的注释。
+        self.declare_parameter("in_lane_half_width", 1.45)
         self.declare_parameter("obstacle_speed_gain", 0.7)  # 障碍速度估计的平滑
         # 代价权重
         self.declare_parameter("w_speed", 1.0)
@@ -67,6 +70,7 @@ class StGraphPlanner(Node):
         self.obs_len = float(self.get_parameter("obs_length").value)
         self.ego_len = float(self.get_parameter("ego_length").value)
         self.margin = float(self.get_parameter("margin").value)
+        self.in_lane = float(self.get_parameter("in_lane_half_width").value)
         self.k_obs = float(self.get_parameter("obstacle_speed_gain").value)
         self.w_speed = float(self.get_parameter("w_speed").value)
         self.w_accel = float(self.get_parameter("w_accel").value)
@@ -109,7 +113,7 @@ class StGraphPlanner(Node):
             return
         x, y, half_w, dist, pts = msg.data[:5]
         # 只关心挡在车道里的：横向半宽和自车宽度比
-        if abs(y) - half_w > 1.4:
+        if abs(y) - half_w > self.in_lane:
             self.obstacle = None
             self._prev_obs_s = None
             return

@@ -80,7 +80,13 @@ class ObstacleDetector(Node):
         self.declare_parameter("min_points", 4)
         self.declare_parameter("max_clusters", 12)
         self.declare_parameter("max_cluster_width", 4.0)
-        self.declare_parameter("corridor_half_width", 2.6)
+        # 「什么算挡路」的门限，三个模块必须用同一个值，否则会互相打架：
+        #   检测器报"堵了" -> 重规划去借道 -> 规划器说"没堵"继续给速度
+        #   -> 车继续往前 -> 检测器又报下一个 -> 无限循环。
+        # 取值 = 自车半宽(0.95) + 余量(0.5) ≈ 1.45m。
+        # 之前这里是 2.6m —— 那已经贴到马路牙子了，路边的垃圾桶、
+        # 灯杆全被当成挡路，车在路上被一串无关物体轮流吓停。
+        self.declare_parameter("corridor_half_width", 1.45)
         self.declare_parameter("vis", True)
 
         self.roi_x_min = float(self.get_parameter("roi_x_min").value)
