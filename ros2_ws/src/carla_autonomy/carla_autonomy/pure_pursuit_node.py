@@ -113,6 +113,9 @@ class PurePursuit(Node):
         self.st_speed = None
         self.st_time = 0.0
         self.create_subscription(Float32, "/carla/ego/st_speed_cmd", self.on_st_speed, 10)
+        # 迷宫鼠那套：上层重规划器可以中途换掉整条路径
+        # （前方车道被堵死 -> 换个车道走），这里接收新路径。
+        self.create_subscription(Path, "/carla/ego/route_override", self.on_route_override, 10)
 
         self.publish_path()
         # 控制循环由 odometry 回调驱动（桥那边是 20Hz），不需要额外定时器
@@ -170,6 +173,18 @@ class PurePursuit(Node):
     def on_st_speed(self, msg: Float32) -> None:
         self.st_speed = float(msg.data)
         self.st_time = time.time()
+
+    def on_route_override(self, msg: Path) -> None:
+        """上层重规划器下发了新路径 —— 直接换掉。"""
+        pts = [(p.pose.position.x, p.pose.position.y) for p in msg.poses]
+        if len(pts) < 10:
+            return
+        # 换了路径，索引要重新对齐（否则 lookahead 会指到旧路径的位置上）
+        self.path = pts
+        self.nearest_idx = 0
+        self._avoid_side = 0
+        self._side_hold = 0.0
+        self.get_logger().info(f"[重规划] 收到新路径 {len(pts)} 点，已切换")
 
     def on_odom(self, msg: Odometry) -> None:
         if not self.path:
