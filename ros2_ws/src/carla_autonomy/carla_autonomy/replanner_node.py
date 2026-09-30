@@ -105,10 +105,14 @@ class Replanner(Node):
     def tick(self) -> None:
         now = time.time()
         # 1. 判断是不是真堵了：本车道有障碍、离得够近、而且车已经快停了
+        # 触发条件只看**感知**：本车道上有障碍、而且已经够近。
+        # 千万不要加"车速 < 1.0"这种条件 —— 那等于要求"下层先把我刹停，
+        # 我才去重规划"，两层的耦合就是这么自己造出来的：
+        # 没有下层刹车时，重规划一次都不会触发（实测 0 次）。
+        # 判断"路堵了"是感知的事，不是下层执行器的事。
         blocked = (self.obstacle is not None
                    and self.obstacle[3] < self.trigger_dist
-                   and abs(self.obstacle[1]) - self.obstacle[2] < self.min_clear
-                   and self.speed < 1.0)
+                   and abs(self.obstacle[1]) - self.obstacle[2] < self.min_clear)
         if blocked:
             if self._blocked_since == 0.0:
                 self._blocked_since = now
