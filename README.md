@@ -47,7 +47,11 @@ carla_bridge → carla.VehicleControl → 虚拟车
 
 ## 环境（无 sudo 也能装）
 
-- **ROS 2 Humble**：走 RoboStack conda（`envs/ros2`，Python 3.10）
+- **ROS 2 Humble**：走 RoboStack conda，直接复用 conda 的 **`test` 环境**
+  （Python 3.10）。工程不再自建 `envs/ros2`，依赖全装在 `test` 里，
+  不动 `base` / `yolo` / 其他环境。
+  > `test` 原本是 Python 3.12，但 **carla 0.9.15 的 wheel 最高只到 cp310**，
+  > 所以把它重建成 3.10 才装得上 carla 客户端。
 - **CARLA 0.9.15**：官方 CDN 下载（GitHub releases 已迁走）
 - **Python 3.10**：唯一同时满足 `carla==0.9.15`（wheel 最高 cp310）
   和 RoboStack humble（有 py310 构建）的版本
@@ -121,4 +125,3 @@ docs/        需求来源存档
 ## License
 
 MIT
-

@@ -4,6 +4,24 @@
 
 ## 恢复工作（下次开工先看这里）
 
+### 环境变更（2026-09-30 晚）——工程已切到 conda 的 test 环境
+
+按用户要求，工程不再自建 `envs/ros2`，改为**直接用 conda 里的 `test` 环境**。
+
+- `test` 原本是 **Python 3.12**，而 **carla 0.9.15 的 wheel 最高只到 cp310**，
+  装不上客户端（`carla-0.9.16` 才有 cp312 wheel，但那要换整个 0.9.16 服务器，
+  8–10 GB 重下 + 全部重测，代价太大）。
+- 所以把 `test` **重建为 Python 3.10.13 + ROS 2 Humble**，
+  再把 carla / casadi / torch 2.8.0+cu128 / ultralytics 全装进去。
+- 重建前的包清单备份在 `logs/test_env_backup_py312*.txt`（内容本来就是空的，
+  只有 pip/setuptools/wheel/packaging）。
+- 旧的 `envs/ros2`（13 GB）已删除。现在所有依赖只影响 `test` 一个环境，
+  `base` / `yolo` / `paddle` / `tridet` / `sam3` 全部未动。
+- 迁移后复测：M0 通过、M5 通过（横向误差均值 0.269 m，与迁移前完全一致）。
+
+进入环境：`source setup/activate.sh`（内部 `conda activate test`，
+想换名就 `LAB_ENV=xxx`）。
+
 仿真已于 2026-09-30 中午关闭，现场干净（无残留进程，GPU 已释放，端口 2000 已释放）。
 下午继续开发时，从这里接：
 

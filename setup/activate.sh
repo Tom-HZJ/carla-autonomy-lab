@@ -10,8 +10,13 @@
 PROJ=/home/tom/Desktop/ROS2
 CONDA_BIN=/home/tom/anaconda3/bin/conda
 
-if [ ! -d "$PROJ/envs/ros2" ]; then
-  echo "!! $PROJ/envs/ros2 不存在，先跑 setup/create_ros_env.sh"
+# 工程用 conda 里的 test 环境（Python 3.10）。
+# 为什么必须是 3.10：carla 0.9.15 的 wheel 最高只到 cp310，
+# 而 test 原本是 3.12，压根装不了 carla 客户端，所以把 test 重建成 3.10。
+LAB_ENV="${LAB_ENV:-test}"
+
+if [ ! -d "/home/tom/anaconda3/envs/$LAB_ENV" ]; then
+  echo "!! conda 环境 $LAB_ENV 不存在，先跑 setup/create_ros_env.sh"
   return 1 2>/dev/null || exit 1
 fi
 
@@ -21,7 +26,7 @@ fi
 if [ -f /home/tom/anaconda3/etc/profile.d/conda.sh ]; then
   source /home/tom/anaconda3/etc/profile.d/conda.sh
 fi
-conda activate "$PROJ/envs/ros2"
+conda activate "$LAB_ENV"
 
 # --- 2. ROS 2 / DDS 设置 ---
 export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-42}"
@@ -67,6 +72,7 @@ alias carla-server='bash $PROJ/setup/run_carla.sh'
 alias lab-status='cat $PROJ/STATUS.md'
 
 echo "[carla-autonomy-lab] 环境已就绪"
+echo "  env    : $LAB_ENV"
 echo "  python : $(python -V 2>&1)"
 echo "  ROS    : ${ROS_DISTRO:-<未设置>}"
 echo "  CARLA  : $CARLA_HOME"
