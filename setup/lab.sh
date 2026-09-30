@@ -42,6 +42,7 @@ stop_all() {
   pkill -f "lib/carla_autonomy/obstacle_detecto[r]" 2>/dev/null
   pkill -f "lib/carla_autonomy/behavior_drive[r]" 2>/dev/null
   pkill -f "lib/carla_autonomy/yolo_detecto[r]" 2>/dev/null
+  pkill -f "lib/carla_autonomy/st_planne[r]" 2>/dev/null
   pkill -f "rviz[2]" 2>/dev/null
   sleep 2
   echo "停 CARLA 服务端 ..."
@@ -81,6 +82,7 @@ status_all() {
   printf "%-22s %s\n" "obstacle_detector" "$(pgrep -f 'lib/carla_autonomy/obstacle_detecto[r]' >/dev/null && echo 运行中 || echo 未运行)"
   printf "%-22s %s\n" "behavior_driver" "$(pgrep -f 'lib/carla_autonomy/behavior_drive[r]' >/dev/null && echo 运行中 || echo 未运行)"
   printf "%-22s %s\n" "yolo_detector" "$(pgrep -f 'lib/carla_autonomy/yolo_detecto[r]' >/dev/null && echo 运行中 || echo 未运行)"
+  printf "%-22s %s\n" "st_planner" "$(pgrep -f 'lib/carla_autonomy/st_planne[r]' >/dev/null && echo 运行中 || echo 未运行)"
   printf "%-22s %s\n" "rviz2" "$(pgrep -f 'rviz[2]' >/dev/null && echo 运行中 || echo 未运行)"
 }
 
@@ -117,10 +119,13 @@ case "$cmd" in
       yolo)    # shellcheck disable=SC1091
                activate_lab
                start_detached "$LOGS/yolo.log" ros2 run carla_autonomy yolo_detector "$@" ;;
+      st)      # shellcheck disable=SC1091
+               activate_lab
+               start_detached "$LOGS/st.log" ros2 run carla_autonomy st_planner "$@" ;;
       rviz)    # shellcheck disable=SC1091
                activate_lab
                start_detached "$LOGS/rviz.log" rviz2 -d "$PROJ/ros2_ws/src/carla_autonomy/config/ego.rviz" ;;
-      *) echo "用法: bash setup/lab.sh start {carla|bridge|control|pursuit|mpc|perception|agent|yolo|rviz}"; exit 1 ;;
+      *) echo "用法: bash setup/lab.sh start {carla|bridge|control|pursuit|mpc|perception|agent|yolo|st|rviz}"; exit 1 ;;
     esac
     ;;
   stop)   stop_all ;;
