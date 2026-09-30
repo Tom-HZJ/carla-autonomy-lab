@@ -28,11 +28,12 @@
 from __future__ import annotations
 
 import math
+import time
 from typing import List, Optional, Tuple
 
 import numpy as np
 import rclpy
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path as RosPath
 from rclpy.node import Node
 from std_msgs.msg import Float32, Float32MultiArray
 
@@ -60,6 +61,10 @@ class StGraphPlanner(Node):
         self.declare_parameter("w_speed", 1.0)
         self.declare_parameter("w_accel", 0.35)
         self.declare_parameter("w_jerk", 0.05)
+        # 上层（replanner）一旦决定绕行并下发了新路径，下层就不该再
+        # 因为"本车道有障碍"把速度封死 —— 那是两层在做相反决策：
+        # 上层说"我绕"，下层说"还堵着，v=0"，车就永远停在原地。
+        self.declare_parameter("trust_override_s", 6.0)
 
         self.T = float(self.get_parameter("horizon_s").value)
         self.dt = float(self.get_parameter("dt").value)
@@ -85,6 +90,7 @@ class StGraphPlanner(Node):
         self._prev_obs_t = 0.0
         self.obs_speed = 0.0
         self._last_plan: List[float] = []
+        self._override_t = 0.0
 
         self.pub_speed = self.create_publisher(Float32, "/carla/ego/st_speed_cmd", 10)
         self.pub_profile = self.create_publisher(Float32MultiArray, "/carla/ego/st_profile", 10)
@@ -93,6 +99,8 @@ class StGraphPlanner(Node):
                                  self.on_obstacle, 10)
         self.create_subscription(Float32, "/carla/ego/desired_speed",
                                  self.on_desired, 10)
+        self.create_subscription(RosPath, "/carla/ego/route_override",
+                                 self.on_override, 10)
 
         self.get_logger().info(
             f"ST-Graph 规划器就绪：时域 {self.T:.1f}s ({self.Nt} 步 × {self.dt}s)，"
@@ -101,6 +109,11 @@ class StGraphPlanner(Node):
     # ------------------------------------------------------------------ 回调
     def on_desired(self, msg: Float32) -> None:
         self.desired = float(msg.data)
+
+    def on_override(self, msg: RosPath) -> None:
+        """上层下发了绕行新路径 —— 记下时间，这段时间内让路。"""
+        if len(msg.poses) >= 10:
+            self._override_t = time.time()
 
     def on_odom(self, msg: Odometry) -> None:
         v = msg.twist.twist
@@ -134,6 +147,11 @@ class StGraphPlanner(Node):
     def _blocked(self, s_ego: float, t: float) -> bool:
         """t 时刻自车走到 s_ego 会不会撞上障碍物。"""
         if self.obstacle is None:
+            return False
+        # 上层已经决定绕行了（刚下发过新路径），就不要再按"本车道"
+        # 把速度封死 —— 相信上层的绕行决策，这里只做速度平滑。
+        if time.time() - self._override_t < float(
+                self.get_parameter("trust_override_s").value):
             return False
         _x, _y, _hw, s0, _pts = self.obstacle
         s_obs = s0 + self.obs_speed * t          # 障碍物匀速外推
