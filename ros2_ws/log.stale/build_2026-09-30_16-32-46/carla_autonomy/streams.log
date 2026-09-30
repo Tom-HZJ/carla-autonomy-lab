@@ -1,0 +1,10 @@
+[0.419s] Invoking command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build
+[0.496s] /home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/setuptools/_distutils/dist.py:318: UserWarning: Unknown distribution option: 'tests_require'
+[0.496s]   warnings.warn(msg)
+[0.514s] usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+[0.514s]    or: setup.py --help [cmd1 cmd2 ...]
+[0.514s]    or: setup.py --help-commands
+[0.515s]    or: setup.py cmd --help
+[0.515s] 
+[0.515s] error: option --uninstall not recognized
+[0.525s] Invoked command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy' returned '1': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build

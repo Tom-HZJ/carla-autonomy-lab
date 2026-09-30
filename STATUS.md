@@ -216,6 +216,24 @@ numpy 1.x 的 ABI 编的，结果 `cv2` 直接 import 失败（`_ARRAY_API not f
 
 ### 常用命令补充
 
+### 场景填充（2026-09-30 晚）—— 让检测有东西可测
+
+`scripts/spawn_traffic.py`：撒行人和车辆。
+- 行人用 `controller.ai.walker`，会真的在路网上走动（38 个）
+- 车辆开 autopilot 跟车流跑（25 辆）
+- **必须在起 `carla_bridge` 之前跑**：桥会切同步模式，之后第二个客户端
+  spawn 会超时
+- 清场：`python scripts/spawn_traffic.py --clear`
+
+实测效果（`datasets/camera/demo_traffic_annotated.png`）：
+雨夜街景 + YOLO 检测框（认出 car 0.48、traffic light、行人），
+LiDAR 同时输出 5–6 个障碍物簇、最近 36 m。
+
+顺带修了一个迁移遗留问题：colcon 生成的 `install/setup.bash` 里
+还写着已删除的 `envs/ros2` 路径，导致 source 时报
+`not found: envs/ros2/local_setup.bash`。把 `build/install/log`
+挪走重建即可（旧的改名成 `*.stale`）。
+
 ```bash
 bash setup/lab.sh start yolo              # 起 YOLO 检测（默认 conf 0.35）
 bash setup/lab.sh start yolo -p conf:=0.15 -p every_n:=3   # 夜里小目标

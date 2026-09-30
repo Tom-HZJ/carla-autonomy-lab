@@ -1,0 +1,18 @@
+running develop
+running egg_info
+writing carla_autonomy.egg-info/PKG-INFO
+writing dependency_links to carla_autonomy.egg-info/dependency_links.txt
+writing entry points to carla_autonomy.egg-info/entry_points.txt
+writing requirements to carla_autonomy.egg-info/requires.txt
+writing top-level names to carla_autonomy.egg-info/top_level.txt
+reading manifest file 'carla_autonomy.egg-info/SOURCES.txt'
+writing manifest file 'carla_autonomy.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages/carla-autonomy.egg-link (link to .)
+Installing carla_bridge script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+Installing carla_control script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+Installing make_route script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+Installing pure_pursuit script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+
+Installed /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy
+running symlink_data

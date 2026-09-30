@@ -1,0 +1,24 @@
+[0.635s] Invoking command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build --no-deps symlink_data
+[0.839s] running develop
+[0.972s] running egg_info
+[0.978s] writing carla_autonomy.egg-info/PKG-INFO
+[0.978s] writing dependency_links to carla_autonomy.egg-info/dependency_links.txt
+[0.978s] writing entry points to carla_autonomy.egg-info/entry_points.txt
+[0.978s] writing requirements to carla_autonomy.egg-info/requires.txt
+[0.978s] writing top-level names to carla_autonomy.egg-info/top_level.txt
+[0.999s] reading manifest file 'carla_autonomy.egg-info/SOURCES.txt'
+[1.000s] writing manifest file 'carla_autonomy.egg-info/SOURCES.txt'
+[1.010s] running build_ext
+[1.010s] Creating /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages/carla-autonomy.egg-link (link to .)
+[1.010s] Installing behavior_driver script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.010s] Installing carla_bridge script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.010s] Installing carla_control script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] Installing make_route script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] Installing mpc_controller script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] Installing obstacle_detector script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] Installing pure_pursuit script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] Installing yolo_detector script to /home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/carla_autonomy
+[1.011s] 
+[1.011s] Installed /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy
+[1.011s] running symlink_data
+[1.031s] Invoked command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy' returned '0': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build --no-deps symlink_data

@@ -1,0 +1,127 @@
+[0.139s] colcon DEBUG Command line arguments: ['/home/tom/Desktop/ROS2/envs/ros2/bin/colcon', 'build', '--symlink-install']
+[0.139s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x727834214400>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x727834203dc0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x727834203dc0>>)
+[0.239s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.239s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.239s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.239s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.240s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) discover
+[0.240s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.240s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/tom/Desktop/ROS2/ros2_ws'
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore'
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore_ament_install'
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_pkg']
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_pkg'
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_meta']
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_meta'
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ros']
+[0.240s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ros'
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['cmake', 'python']
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'cmake'
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python'
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['python_setup_py']
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python_setup_py'
+[0.276s] colcon.colcon_core.package_identification Level 1 _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(build) by extension 'ignore'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(build) ignored
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(install) by extension 'ignore'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(install) ignored
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(log) by extension 'ignore'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(log) ignored
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore_ament_install'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_pkg']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_pkg'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_meta']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_meta'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ros']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ros'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['cmake', 'python']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'cmake'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['python_setup_py']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python_setup_py'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'ignore'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'ignore_ament_install'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['colcon_pkg']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'colcon_pkg'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['colcon_meta']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'colcon_meta'
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['ros']
+[0.277s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'ros'
+[0.280s] colcon.colcon_core.package_identification DEBUG Found ROS schema reference in package manifest in 'src/carla_autonomy'
+[0.280s] colcon.colcon_core.package_identification WARNING Failed to parse ROS package manifest in 'src/carla_autonomy': Error(s) in package 'src/carla_autonomy/package.xml':
+Invalid email "tom@localhost" for person "tom"
+[0.280s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['cmake', 'python']
+[0.280s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'cmake'
+[0.280s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'python'
+[0.280s] colcon.colcon_core.package_identification DEBUG Python package in 'src/carla_autonomy' passes arguments to the setup() function which requires a different identification extension than 'python'
+[0.280s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extensions ['python_setup_py']
+[0.280s] colcon.colcon_core.package_identification Level 1 _identify(src/carla_autonomy) by extension 'python_setup_py'
+[0.735s] colcon.colcon_core.package_identification DEBUG Package 'src/carla_autonomy' with type 'python' and name 'carla_autonomy'
+[0.736s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.736s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) discover
+[0.736s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) using defaults
+[0.736s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) discover
+[0.736s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) using defaults
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_args' from command line to 'None'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_target' from command line to 'None'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_clean_cache' from command line to 'False'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_clean_first' from command line to 'False'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'cmake_force_configure' from command line to 'False'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'ament_cmake_args' from command line to 'None'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'catkin_cmake_args' from command line to 'None'
+[0.765s] colcon.colcon_core.verb Level 5 set package 'carla_autonomy' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.765s] colcon.colcon_core.verb DEBUG Building package 'carla_autonomy' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy', 'merge_install': False, 'path': '/home/tom/Desktop/ROS2/ros2_ws/src/carla_autonomy', 'symlink_install': True, 'test_result_base': None}
+[0.765s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.766s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.766s] colcon.colcon_core.task.python.build INFO Building Python package in '/home/tom/Desktop/ROS2/ros2_ws/src/carla_autonomy'
+[0.769s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.769s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.769s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[1.860s] colcon.colcon_core.task.python.build DEBUG Available setuptools commands: bdist_wininst, upload, bdist_egg, build, bdist, install, dist_info, upload_docs, install_lib, build_scripts, rotate, register, setopt, egg_info, install_scripts, saveopts, bdist_dumb, sdist, install_egg_info, develop, easy_install, clean, build_clib, build_ext, test, install_data, build_py, alias, install_headers, symlink_data, bdist_wheel, check, bdist_rpm
+[2.348s] colcon.colcon_core.task.python.build DEBUG Available setuptools 'develop' options: --quiet, --no-find-links, --version, --help, --egg-path, --always-copy, --prefix, --build-directory, --install-dir, --script-dir, --always-unzip, --editable, --no-deps, --zip-ok, --uninstall, --optimize, --allow-hosts, --exclude-scripts, --index-url, --user, --upgrade, --local-snapshots-ok, --record, --site-dirs, --verbose, --find-links, --dry-run, --multi-version, --no-user-cfg
+[2.350s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build --no-deps symlink_data
+[3.517s] colcon.colcon_core.shell Level 1 create_environment_hook('carla_autonomy', 'pythonpath_develop')
+[3.518s] colcon.colcon_core.shell INFO Creating environment hook '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/share/carla_autonomy/hook/pythonpath_develop.ps1'
+[3.518s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy' returned '0': CONDA_PROMPT_MODIFIER=(ros2) PYTHONPATH=/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/prefix_override:/home/tom/Desktop/ROS2/envs/ros2/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages:${PYTHONPATH} /home/tom/Desktop/ROS2/envs/ros2/bin/python3.10 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/build --no-deps symlink_data
+[3.528s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/share/carla_autonomy/hook/pythonpath_develop.dsv'
+[3.528s] colcon.colcon_core.shell INFO Creating environment hook '/home/tom/Desktop/ROS2/ros2_ws/build/carla_autonomy/share/carla_autonomy/hook/pythonpath_develop.sh'
+[3.533s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy' for CMake module files
+[3.533s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy' for CMake config files
+[3.534s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib'
+[3.534s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/bin'
+[3.534s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/pkgconfig/carla_autonomy.pc'
+[3.534s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/lib/python3.10/site-packages'
+[3.534s] colcon.colcon_core.shell Level 1 create_environment_hook('carla_autonomy', 'pythonpath')
+[3.534s] colcon.colcon_core.shell INFO Creating environment hook '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/hook/pythonpath.ps1'
+[3.535s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/hook/pythonpath.dsv'
+[3.535s] colcon.colcon_core.shell INFO Creating environment hook '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/hook/pythonpath.sh'
+[3.536s] colcon.colcon_core.environment Level 1 checking '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/bin'
+[3.536s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(carla_autonomy)
+[3.536s] colcon.colcon_core.shell INFO Creating package script '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/package.ps1'
+[3.537s] colcon.colcon_core.shell INFO Creating package descriptor '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/package.dsv'
+[3.538s] colcon.colcon_core.shell INFO Creating package script '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/package.sh'
+[3.539s] colcon.colcon_core.shell INFO Creating package script '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/package.bash'
+[3.540s] colcon.colcon_core.shell INFO Creating package script '/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/carla_autonomy/package.zsh'
+[3.540s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/tom/Desktop/ROS2/ros2_ws/install/carla_autonomy/share/colcon-core/packages/carla_autonomy)
+[3.541s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[3.541s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[3.541s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '0'
+[3.541s] colcon.colcon_core.event_reactor DEBUG joining thread
+[3.541s] colcon.colcon_core.event_reactor DEBUG joined thread
+[3.541s] colcon.colcon_core.shell INFO Creating prefix script '/home/tom/Desktop/ROS2/ros2_ws/install/local_setup.ps1'
+[3.542s] colcon.colcon_core.shell INFO Creating prefix util module '/home/tom/Desktop/ROS2/ros2_ws/install/_local_setup_util_ps1.py'
+[3.544s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/tom/Desktop/ROS2/ros2_ws/install/setup.ps1'
+[3.544s] colcon.colcon_core.shell INFO Creating prefix script '/home/tom/Desktop/ROS2/ros2_ws/install/local_setup.sh'
+[3.545s] colcon.colcon_core.shell INFO Creating prefix util module '/home/tom/Desktop/ROS2/ros2_ws/install/_local_setup_util_sh.py'
+[3.546s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/tom/Desktop/ROS2/ros2_ws/install/setup.sh'
+[3.546s] colcon.colcon_core.shell INFO Creating prefix script '/home/tom/Desktop/ROS2/ros2_ws/install/local_setup.bash'
+[3.547s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/tom/Desktop/ROS2/ros2_ws/install/setup.bash'
+[3.548s] colcon.colcon_core.shell INFO Creating prefix script '/home/tom/Desktop/ROS2/ros2_ws/install/local_setup.zsh'
+[3.549s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/tom/Desktop/ROS2/ros2_ws/install/setup.zsh'
