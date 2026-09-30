@@ -152,11 +152,27 @@ def main() -> int:
 
     barrier, bloc = (None, None)
     if not args.no_barrier:
+        # 先清掉上一轮留下的路障：否则会变成"路障还在，但不是这次摆的"，
+        # 判定和实际跑的就不是同一件事。
+        try:
+            world0 = client.get_world()
+            old = [a for a in world0.get_actors()
+                   if a.attributes.get("role_name") == "lab_obstacle"]
+            for a in old:
+                a.destroy()
+            if old:
+                print(f"清掉上一轮 {len(old)} 个旧路障")
+        except Exception:  # noqa: BLE001
+            pass
         try:
             barrier, bloc = place_barrier(client, args.ahead)
             print(f"已在前方 {args.ahead:.0f}m 摆路障 loc=({bloc.x:.1f},{bloc.y:.1f})")
         except Exception as exc:  # noqa: BLE001
-            print(f"摆路障失败（继续跑）: {exc}")
+            # 关键：摆不上就**直接退出**。
+            # 之前这里是"（继续跑）"，结果路障没摆上照样跑完，
+            # 拿一堆跟路障无关的数据去判否 —— 假阴性就是这么来的。
+            print(f"[FAIL] 摆路障失败，本次验收作废: {exc}")
+            return 2
 
     OUT.mkdir(parents=True, exist_ok=True)
     if args.video:

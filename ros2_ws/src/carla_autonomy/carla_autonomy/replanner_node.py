@@ -160,7 +160,13 @@ class Replanner(Node):
         pts: List[Tuple[float, float]] = []
         ramp = max(6, int(self.shift_len * 0.45))     # 渐变的点数
         flat = max(4, self.fwd - 2 * ramp)
-        total = 2 * ramp + flat
+        bump = 2 * ramp + flat
+        # 关键：下发的是**整条闭环**，不是前面那一小段。
+        # 之前只发 140 个点，纯跟踪的 lookahead 是按模 n 取点的，
+        # 车一进这条 140 点的路径就再也跑不出去，只能在这一小段上原地打转，
+        # 下一圈的障碍物永远遇不到 —— 迷宫鼠绕过去之后必须回到原路。
+        # 所以：前 bump 个点带横向鼓包（绕行），后面全部偏移为 0（回到原路线）。
+        total = len(self.base)
         for k in range(total):
             idx = (i0 + k) % n
             x, y = self.base[idx]
@@ -209,4 +215,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
