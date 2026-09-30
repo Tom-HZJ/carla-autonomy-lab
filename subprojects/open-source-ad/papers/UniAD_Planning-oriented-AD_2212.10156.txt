@@ -1,0 +1,70 @@
+Planning-oriented Autonomous Driving
+Yihan Hu1,2∗ , Jiazhi Yang1∗ , Li Chen1∗† , Keyu Li1∗ , Chonghao Sima1 , Xizhou Zhu3,1
+Siqi Chai2 , Senyao Du2 , Tianwei Lin2 , Wenhai Wang1 , Lewei Lu3 , Xiaosong Jia1
+Qiang Liu2 , Jifeng Dai1 , Yu Qiao1 , Hongyang Li1†
+
+arXiv:2212.10156v2 [cs.CV] 23 Mar 2023
+
+1
+
+OpenDriveLab and OpenGVLab, Shanghai AI Laboratory
+2
+Wuhan University 3 SenseTime Research
+∗
+
+Equal contribution † Project lead
+https://github.com/OpenDriveLab/UniAD
+
+Abstract
+Modern autonomous driving system is characterized as
+modular tasks in sequential order, i.e., perception, prediction, and planning. In order to perform a wide diversity of
+tasks and achieve advanced-level intelligence, contemporary approaches either deploy standalone models for individual tasks, or design a multi-task paradigm with separate
+heads. However, they might suffer from accumulative errors or deficient task coordination. Instead, we argue that
+a favorable framework should be devised and optimized in
+pursuit of the ultimate goal, i.e., planning of the self-driving
+car. Oriented at this, we revisit the key components within
+perception and prediction, and prioritize the tasks such that
+all these tasks contribute to planning. We introduce Unified
+Autonomous Driving (UniAD), a comprehensive framework
+up-to-date that incorporates full-stack driving tasks in one
+network. It is exquisitely devised to leverage advantages of
+each module, and provide complementary feature abstractions for agent interaction from a global perspective. Tasks
+are communicated with unified query interfaces to facilitate each other toward planning. We instantiate UniAD on
+the challenging nuScenes benchmark. With extensive ablations, the effectiveness of using such a philosophy is proven
+by substantially outperforming previous state-of-the-arts in
+all aspects. Code and models are public.
+
+Figure 1. Comparison on the various designs of autonomous
+driving framework. (a) Most industrial solutions deploy separate
+models for different tasks. (b) The multi-task learning scheme
+shares a backbone with divided task heads. (c) The end-to-end
+paradigm unites modules in perception and prediction. Previous
+attempts either adopt a direct optimization on planning in (c.1) or
+devise the system with partial components in (c.2). Instead, we
+argue in (c.3) that a desirable system should be planning-oriented
+as well as properly organize preceding tasks to facilitate planning.
+
+dalone models for each task independently [68, 71], as long
+as the resource bandwidth of the onboard chip allows. Although such a design simplifies the R&D difficulty across
+teams, it bares the risk of information loss across modules,
+error accumulation and feature misalignment due to the isolation of optimization targets [57, 66, 82].
+A more elegant design is to incorporate a wide span of
+tasks into a multi-task learning (MTL) paradigm, by plugging several task-specific heads into a shared feature extractor as shown in Fig. 1(b). This is a popular practice in many
+domains, including general vision [79,92,108], autonomous
+driving2 [15, 60, 101, 105], such as Transfuser [20], BEV-
+
+1. Introduction
+With the successful development of deep learning, autonomous driving algorithms are assembled with a series
+of tasks1 , including detection, tracking, mapping in perception; and motion and occupancy forecast in prediction. As
+depicted in Fig. 1(a), most industry solutions deploy stan-
+
+2 In this paper, we refer to MTL in autonomous driving as tasks beyond perception. There is plenty of work on MTL within perception, e.g.,
+detection, depth, flow, etc. This kind of literature is out of scope.
+
+1 In the following context, we interchangeably use task, module, com-
+
+ponent, unit and node to indicate a certain task (e.g., detection).
+
+1
+
+

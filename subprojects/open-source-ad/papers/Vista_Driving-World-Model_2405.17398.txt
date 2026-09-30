@@ -1,0 +1,63 @@
+Vista: A Generalizable Driving World Model with
+High Fidelity and Versatile Controllability
+
+arXiv:2405.17398v5 [cs.CV] 28 Oct 2024
+
+Shenyuan Gao1,2 Jiazhi Yang2 Li Chen2,5 Kashyap Chitta3,4 Yihang Qiu2
+Andreas Geiger3,4† Jun Zhang1† Hongyang Li2,5†
+1
+
+Hong Kong University of Science and Technology 2 OpenDriveLab at Shanghai AI Lab
+3
+University of Tübingen 4 Tübingen AI Center 5 University of Hong Kong
+Code and model: github.com/OpenDriveLab/Vista
+Demo page: opendrivelab.com/Vista
+
+Abstract
+World models can foresee the outcomes of different actions, which is of paramount
+importance for autonomous driving. Nevertheless, existing driving world models
+still have limitations in generalization to unseen environments, prediction fidelity of
+critical details, and action controllability for flexible application. In this paper, we
+present Vista, a generalizable driving world model with high fidelity and versatile
+controllability. Based on a systematic diagnosis of existing methods, we introduce
+several key ingredients to address these limitations. To accurately predict real-world
+dynamics at high resolution, we propose two novel losses to promote the learning
+of moving instances and structural information. We also devise an effective latent
+replacement approach to inject historical frames as priors for coherent long-horizon
+rollouts. For action controllability, we incorporate a versatile set of controls from
+high-level intentions (command, goal point) to low-level maneuvers (trajectory,
+angle, and speed) through an efficient learning strategy. After large-scale training,
+the capabilities of Vista can seamlessly generalize to different scenarios. Extensive
+experiments on multiple datasets show that Vista outperforms the most advanced
+general-purpose video generator in over 70% of comparisons and surpasses the
+best-performing driving world model by 55% in FID and 27% in FVD. Moreover,
+for the first time, we utilize the capacity of Vista itself to establish a generalizable
+reward for real-world action evaluation without accessing the ground truth actions.
+
+1
+
+Introduction
+
+Driven by scalable learning techniques, autonomous driving has made encouraging strides over the
+past few years [18, 58, 135]. However, intricate and out-of-distribution situations are still intractable
+for state-of-the-art techniques [83]. One promising solution lies in world models [57, 76], which infer
+the possible future states of the world from historical observations and alternative actions, in turn
+assessing the feasibility of such actions. They hold the potential to reason with uncertainty and avoid
+catastrophic errors [54, 76, 127], thereby promoting generalization and safety in autonomous driving.
+Although a primary prospect of world models is to enable the generalization ability to novel environments, existing driving world models are still constrained by data scale [90, 125, 127, 143, 147] and
+geographical coverage [54, 61]. As summarized in Table 1 and Fig. 1, they are also often confined to
+low frame rates and resolutions, resulting in a loss of critical details. Furthermore, most models only
+support a single control modality such as the steering angle and speed. This is insufficient to express
+various action formats ranging from high-level intentions to low-level maneuvers, and incompatible
+with the outputs of prevalent planning algorithms [12, 14, 21, 56, 58, 64]. In addition, generalizing
+action controllability to unseen datasets is understudied. These limitations impede the applicability
+of existing works, making it imperative to develop a world model that overcomes these limitations.
+Primary contact to Shenyuan at sygao@connect.ust.hk
+
+†
+
+Equal advising.
+
+38th Conference on Neural Information Processing Systems (NeurIPS 2024).
+
+

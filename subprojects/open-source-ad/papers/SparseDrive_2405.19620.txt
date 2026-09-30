@@ -1,0 +1,65 @@
+SparseDrive: End-to-End Autonomous Driving via
+Sparse Scene Representation
+
+Wenchao Sun1,2
+
+Xuewu Lin2
+
+Yining Shi1
+
+arXiv:2405.19620v2 [cs.CV] 31 May 2024
+
+1
+
+Chuang Zhang1
+
+Tsinghua University
+
+2
+
+Haoran Wu1
+
+Sifa Zheng1
+
+Horizon
+
+Abstract
+The well-established modular autonomous driving system is decoupled into different standalone tasks, e.g. perception, prediction and planning, suffering from
+information loss and error accumulation across modules. In contrast, end-to-end
+paradigms unify multi-tasks into a fully differentiable framework, allowing for
+optimization in a planning-oriented spirit. Despite the great potential of end-toend paradigms, both the performance and efficiency of existing methods are not
+satisfactory, particularly in terms of planning safety. We attribute this to the computationally expensive BEV (bird’s eye view) features and the straightforward design
+for prediction and planning. To this end, we explore the sparse representation
+and review the task design for end-to-end autonomous driving, proposing a new
+paradigm named SparseDrive. Concretely, SparseDrive consists of a symmetric
+sparse perception module and a parallel motion planner. The sparse perception
+module unifies detection, tracking and online mapping with a symmetric model
+architecture, learning a fully sparse representation of the driving scene. For motion
+prediction and planning, we review the great similarity between these two tasks,
+leading to a parallel design for motion planner. Based on this parallel design, which
+models planning as a multi-modal problem, we propose a hierarchical planning
+selection strategy , which incorporates a collision-aware rescore module, to select
+a rational and safe trajectory as the final planning output. With such effective
+designs, SparseDrive surpasses previous state-of-the-arts by a large margin in
+performance of all tasks, while achieving much higher training and inference efficiency. Code will be avaliable at https://github.com/swc-17/SparseDrive
+for facilitating future research.
+
+1
+
+Introduction
+
+Traditional autonomous driving system is characterized as modular tasks in sequential order. While
+advantageous in interpretation and error tracking, it inevitably leads to information loss and accumulative errors across successive modules, thereby limiting the optimal performance potential of the
+system.
+Recently, an end-to-end driving paradigm emerged as a promising research direction. This paradigm
+integrates all tasks into one holistic model, and can be optimized toward the ultimate pursuit for
+planning. However, the existing methods[15, 20] are not satisfactory in terms of performance and
+efficiency. On one hand, previous methods rely on computationally expensive BEV features. On the
+other hand, the straightforward design for prediction and planning limits the model performance. We
+summarize previous methods as BEV-Centric paradigm in Fig. 1a.
+To fully leverage the potential of end-to-end paradigm, we review the task design of existing methods,
+and argue that three main parallels shared between motion prediction and planning are neglected
+as follows: (1) Aiming at predicting future trajectories of surrounding agents and ego vehicle, both
+Preprint. Under review.
+
+

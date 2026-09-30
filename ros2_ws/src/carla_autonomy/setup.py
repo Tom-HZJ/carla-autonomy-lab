@@ -29,6 +29,8 @@ setup(
             "obstacle_detector = carla_autonomy.obstacle_detector:main",
             "behavior_driver = carla_autonomy.behavior_driver:main",
             "yolo_detector = carla_autonomy.yolo_detector_node:main",
+            "st_planner = carla_autonomy.st_planner_node:main",
+            "replanner = carla_autonomy.replanner_node:main",
             "make_route = carla_autonomy.make_route:main",
         ],
     },
