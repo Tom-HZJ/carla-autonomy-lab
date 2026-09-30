@@ -1,0 +1,79 @@
+VAD: Vectorized Scene Representation for Efficient Autonomous Driving
+Bo Jiang1,⋆,⋄ , Shaoyu Chen1,⋆,⋄ , Qing Xu2 , Bencheng Liao1,⋄ , Jiajie Chen2 ,
+Helong Zhou2 , Qian Zhang2 , Wenyu Liu1 , Chang Huang2 , Xinggang Wang1,⊠
+1
+
+Huazhong University of Science & Technology
+
+2
+
+Horizon Robotics
+
+arXiv:2303.12077v3 [cs.RO] 24 Aug 2023
+
+{bjiang, shaoyuchen, bcliao, liuwy, xgwang}@hust.edu.cn
+{qing.xu, jiajie.chen, helong.zhou, qian01.zhang, chang.huang}@horizon.ai
+
+https://github.com/hustvl/VAD
+
+Abstract
+Autonomous driving requires a comprehensive understanding of the surrounding environment for reliable trajectory planning. Previous works rely on dense rasterized
+scene representation (e.g., agent occupancy and semantic
+map) to perform planning, which is computationally intensive and misses the instance-level structure information.
+In this paper, we propose VAD, an end-to-end vectorized
+paradigm for autonomous driving, which models the driving scene as a fully vectorized representation. The proposed
+vectorized paradigm has two significant advantages. On
+one hand, VAD exploits the vectorized agent motion and
+map elements as explicit instance-level planning constraints
+which effectively improves planning safety. On the other
+hand, VAD runs much faster than previous end-to-end planning methods by getting rid of computation-intensive rasterized representation and hand-designed post-processing
+steps. VAD achieves state-of-the-art end-to-end planning
+performance on the nuScenes dataset, outperforming the
+previous best method by a large margin. Our base model,
+VAD-Base, greatly reduces the average collision rate by
+29.0% and runs 2.5× faster. Besides, a lightweight variant, VAD-Tiny, greatly improves the inference speed (up to
+9.3×) while achieving comparable planning performance.
+We believe the excellent performance and the high efficiency
+of VAD are critical for the real-world deployment of an autonomous driving system. Code and models are available at
+https://github.com/hustvl/VAD for facilitating
+future research.
+
+1. Introduction
+Autonomous driving requires both comprehensive scene
+understanding for ensuring safety and high efficiency for
+⋆ Equal contribution; ⋄ Interns of Horizon Robotics when doing this
+work; ⊠ Corresponding author: xgwang@hust.edu.cn
+
+(a) Rasterized Scene Representation
+Boundary Vector
+
+Lane Vector
+
+(b) Vectorized Scene Representation
+Motion Vector
+
+Ego Vector
+
+Figure 1. Previous paradigms mainly rely on rasterized representation (a) for planning (e.g., semantic map, occupancy map, flow
+map, and cost map), which is computationally intensive. The proposed VAD is fully based on the vectorized scene representation
+(b) for end-to-end planning. VAD leverages instance-level structure information as planning constraints and guidance, achieving
+promising performance and efficiency.
+
+real-world deployment. An autonomous vehicle needs to
+efficiently perceive the driving scene and perform reasonable planning based on the scene information.
+Traditional autonomous driving methods [7, 14, 23, 48]
+adopt a modular paradigm, where perception and planning
+are decoupled into standalone modules. The disadvantage
+is, the planning module cannot access the original sensor
+data, which contains rich semantic information. And since
+planning is fully based on preceding perception results, the
+error in perception may severely influence planning and can
+not be recognized and cured in the planning stage, which
+leads to the safety problem.
+Recently, end-to-end autonomous driving methods [2,
+11, 19, 21] take sensor data as input for perception and
+output planning results with one holistic model. Some
+works [9, 40, 41] directly output planning results based on
+the sensor data without learning scene representation, which
+
+

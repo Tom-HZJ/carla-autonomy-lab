@@ -1,0 +1,125 @@
+arXiv:2411.15139v3 [cs.CV] 10 Apr 2025
+
+DiffusionDrive: Truncated Diffusion Model for End-to-End Autonomous Driving
+Bencheng Liao1,2,⋄ Shaoyu Chen2,3 Haoran Yin3 Bo Jiang2,⋄ Cheng Wang1,2,⋄ Sixu Yan2
+Xinbang Zhang3 Xiangyu Li3 Ying Zhang3 Qian Zhang3 Xinggang Wang2
+1
+Institute of Artificial Intelligence, Huazhong University of Science & Technology
+2
+School of EIC, Huazhong University of Science & Technology
+3
+Horizon Robotics
+Code & Model & Demo: hustvl/DiffusionDrive
+
+Abstract
+(a)
+
+Recently, the diffusion model has emerged as a powerful
+generative technique for robotic policy learning, capable of
+modeling multi-mode action distributions. Leveraging its
+capability for end-to-end autonomous driving is a promising direction. However, the numerous denoising steps in
+the robotic diffusion policy and the more dynamic, openworld nature of traffic scenes pose substantial challenges
+for generating diverse driving actions at a real-time speed.
+To address these challenges, we propose a novel truncated
+diffusion policy that incorporates prior multi-mode anchors
+and truncates the diffusion schedule, enabling the model
+to learn denoising from anchored Gaussian distribution to
+the multi-mode driving action distribution. Additionally, we
+design an efficient cascade diffusion decoder for enhanced
+interaction with conditional scene context. The proposed
+model, DiffusionDrive, demonstrates 10× reduction in denoising steps compared to vanilla diffusion policy, delivering superior diversity and quality in just 2 steps. On the
+planning-oriented NAVSIM dataset, with aligned ResNet34 backbone, DiffusionDrive achieves 88.1 PDMS without
+bells and whistles, setting a new record, while running at a
+real-time speed of 45 FPS on an NVIDIA 4090. Qualitative
+results on challenging scenarios further confirm that DiffusionDrive can robustly generate diverse plausible driving
+actions.
+
+Encode
+
+Interacting
+
+Scene Representation
+(b)
+
+Encode
+
+Ego Query
+
+Encode
+
+Multi-mode
+Trajectories
+Score of Each Anchor
+
+Denoise
+
+Scene Rep.+Gaussian Distribution
+
+(d)
+
+Encode
+
+MLP
+
+Scoring
+
+Scene Representation+Vocabulary
+
+(c)
+
+Reg Single-mode
+Trajectory
+
+Diffusion Policy
+
+Denoise
+Scoring
+
+Scene Rep.+Anchored Gaussian Dist.
+
+Multi-mode
+Trajectories
+
+p=1
+p=0
+
+Confidence Score
+
+Multi-mode
+Trajectories
+
+Truncated Diffusion Policy
+
+Figure 1. The comparison of different end-to-end paradigms.
+(a) Single mode regression [7, 16, 20]. (b) Sampling from vocabulary [3, 25]. (c) Vanilla diffusion policy [6, 19]. (d) The proposed
+truncated diffusion policy.
+
+End-to-end autonomous driving has gained significant attention in recent years due to advancements in perception
+models (detection [4, 17, 24, 42], tracking [54–56], online
+mapping [27, 28, 32], etc.), which directly learns the driving policy from the raw sensor inputs. This data-driven ap-
+
+proach offers a scalable and robust alternative to traditional
+rule-based motion planning, which often struggles to generalize to complex real-world driving settings.
+To effectively learn from data, mainstream end-to-end
+planners (e.g., Transfuser [7], UniAD [16], VAD [20]) typically regress a single-mode trajectory from an ego-query
+as shown in Fig. 1a. However, this paradigm does not account for the inherent uncertainty and multi-mode nature
+of driving behaviors. Recently, VADv2 [20] introduces
+a large fixed vocabulary of anchor trajectories (4096 anchors) to discretize the continuous action space and capture a broader range of driving behaviors, and then samples from these anchors based on predicted scores as shown
+in Fig. 1b. However, this large fixed-vocabulary paradigm
+is fundamentally constrained by the number and quality of
+anchor trajectories, often failing in out-of-vocabulary scenarios. Furthermore, managing a large number of anchors
+presents significant computational challenges for real-time
+applications. Rather than discretizing the action space,
+diffusion model [6] has proven to be a powerful genera-
+
+⋄ Intern of Horizon Robotics;
+Wang (xgwang@hust.edu.cn).
+
+To distinguish the term “multimodal” used to describe input data, we
+use “multi-mode” in this paper to refer to diverse planning decisions.
+
+1. Introduction
+
+Corresponding author: Xinggang
+
+

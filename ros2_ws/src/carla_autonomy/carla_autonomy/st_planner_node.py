@@ -136,13 +136,15 @@ class StGraphPlanner(Node):
         clear = (self.obs_len + self.ego_len) / 2.0 + self.margin
         return abs(s_ego - s_obs) < clear
 
-    def plan(self) -> List[float]:
+    def plan(self, desired: Optional[float] = None) -> List[float]:
         """三维 DP 求 v(t)，返回长度 Nt+1 的速度曲线（m/s）。
 
         状态必须是 (时间 k, 累计位移 s, 速度 v) 三个量：
         只索引 (k, v) 是不够的 —— 不同路径到同一个 (k, v) 时，
         走出来的累计位移 s 并不相同，碰撞判断就没法做。
         """
+        if desired is None:
+            desired = self.desired
         Nt, Mv, dt, dv = self.Nt, self.Mv, self.dt, self.dv
         ds = 0.5
         Ns = int(round(self.v_max * self.T / ds)) + 2
@@ -183,7 +185,7 @@ class StGraphPlanner(Node):
                         if self._blocked(s_next, t_k + dt):
                             continue
                         sj = int(round(s_next / ds))
-                        add = (self.w_speed * (v_avg - self.desired) ** 2
+                        add = (self.w_speed * (v_avg - desired) ** 2
                                + self.w_accel * a * a) * dt
                         if c + add < cost[k + 1, sj, vj]:
                             cost[k + 1, sj, vj] = c + add
@@ -206,13 +208,60 @@ class StGraphPlanner(Node):
                     break
         return seq
 
+    # ------------------------------------------------------------------ 多模态
+    def score(self, prof: List[float]) -> Tuple[float, float]:
+        """给一条候选速度曲线打分，返回 (总代价, 最小碰撞余量)。
+
+        借 SparseDrive 的 **collision-aware rescore** 思路：
+        碰撞风险要**单独重打分**，不能混在优化目标里被速度项稀释掉。
+        DP 内部已经有碰撞约束，但它是在"期望速度"这一个意图下搜的；
+        换一个意图（比如让行）搜出来的曲线，安全余量可能完全不同。
+        """
+        s, prev_v, cost = 0.0, self.speed, 0.0
+        min_clear = 1e9
+        for k, v in enumerate(prof):
+            a = (v - prev_v) / self.dt
+            cost += (self.w_speed * (v - self.desired) ** 2
+                     + self.w_accel * a * a) * self.dt
+            prev_v = v
+            s += v * self.dt
+            if self.obstacle is not None:
+                _x, _y, _hw, s0, _pts = self.obstacle
+                s_obs = s0 + self.obs_speed * (k * self.dt)
+                clear = abs(s - s_obs) - (self.obs_len + self.ego_len) / 2.0
+                min_clear = min(min_clear, clear)
+        # 碰撞风险单独重加权：贴得越近代价涨得越猛
+        if min_clear < 0:
+            cost += 1e6 + 1e4 * (-min_clear)
+        elif min_clear < self.margin:
+            cost += 1e3 * (self.margin - min_clear) ** 2
+        return cost, min_clear
+
+    def plan_multi(self) -> Tuple[str, List[float]]:
+        """生成 K 条不同意图的候选，重打分后选最安全的。"""
+        cands = [
+            ("保持", self.desired),                       # 维持巡航速度
+            ("让行", min(self.speed * 0.5, self.desired * 0.4)),  # 主动减速
+            ("抢行", min(self.v_max, self.desired * 1.35)),       # 加速通过
+        ]
+        best = None
+        for name, want in cands:
+            prof = self.plan(want)
+            cost, clear = self.score(prof)
+            if best is None or cost < best[0]:
+                best = (cost, clear, name, prof)
+        return best[2], best[3]
+
     def plan_and_publish(self) -> None:
-        prof = self.plan()
+        # 多模态：生成"保持/让行/抢行"三条候选，用碰撞感知重打分选最优
+        # （思路来自 SparseDrive 的 hierarchical planning selection）
+        intent, prof = self.plan_multi()
         self._last_plan = prof
         # 发给控制器的是"下一步该跑多快"
         cmd = prof[1] if len(prof) > 1 else self.desired
         self.pub_speed.publish(Float32(data=float(cmd)))
         self.pub_profile.publish(Float32MultiArray(data=[float(v) for v in prof[:25]]))
+        self._last_intent = intent
 
 
 def main() -> None:
