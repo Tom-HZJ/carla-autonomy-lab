@@ -1,0 +1,23 @@
+carla_bridge:
+  ros__parameters:
+    host: localhost
+    port: 2000
+    town: ""
+    weather: rain_night
+    spawn_ego: true
+    ego_filter: "vehicle.tesla.model3"
+    autopilot: false
+    sync_mode: true
+    rate_hz: 20.0
+    camera_width: 1280
+    camera_height: 720
+    lidar_channels: 64
+    lidar_range: 80.0
+    lidar_hz: 20.0
+    publish_camera: true
+    publish_lidar: true
+    follow_spectator: true
+    max_steer_rad: 1.0    # 实测：CARLA steer=1.0 ≈ 前轮 1.0 rad
+    speed_kp: 0.35
+    speed_ki: 0.15
+    speed_kd: 0.0

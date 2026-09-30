@@ -1,0 +1,32 @@
+# ---- 大文件 / 依赖，绝不入库 ----
+# conda 环境（3.3 GB）
+envs/
+# CARLA 发行包（19 GB）
+carla/
+# 采集的图像/点云/rosbag
+datasets/
+logs/
+models/
+cyclonedds.log
+
+# ---- colcon 产物 ----
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.scratch/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# ---- 注意 ----
+# 路线文件要入库（它是路线生成的产物，但不含大文件）：
+!ros2_ws/src/carla_autonomy/config/route_town10.json
